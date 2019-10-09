@@ -64,7 +64,7 @@ module BashColor
     # @return [Array] Array containing text and color code symbols
     def process_text(text, locations)
         working = []
-        return text if locations.length == 0
+        return [text] if locations.length == 0
         
         if locations[0][:begin] > 0
             working << text[0..locations[0][:begin]-1]
