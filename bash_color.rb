@@ -5,7 +5,13 @@
 # @author Wade H. <vdtdev@gmail.com>
 # @license MIT
 module BashColor
-    DEF_COLOR_SYMBOL='%'
+    ##
+    # Default color code prefix symbol (`'%'``)
+    DEFAULT_COLOR_SYMBOL='%'
+    ##
+    # Preset for color code symbols, defining default value
+    # for `default` color (foreground `37`, background `0`)
+    DEFAULT_COLOR_CODES={default: {fg: 37, bg: 0}}
     extend self
     ##
     # Colorize string using provided color settings
@@ -18,10 +24,11 @@ module BashColor
     #       repeated twice. Other codes are `(symbol)name`
     # @return [String] Copy of `text` with color codes injected
     def colorize(text, symbols, options={})
-        sym_chr = options.fetch(:symbol_character, DEF_COLOR_SYMBOL)
+        sym_chr = options.fetch(:symbol_character, DEFAULT_COLOR_SYMBOL)
         symbol_regexs = make_symbol_regexs(symbols, sym_chr)
         locations = find_color_symbols(text, symbol_regexs)
         raw = process_text(text, locations)
+        symbols = DEFAULT_COLOR_CODES.merge(symbols)
         str = ''
         # p raw
         # binding.pry
